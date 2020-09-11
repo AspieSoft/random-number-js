@@ -1,0 +1,24 @@
+{
+  "name": "random-number-js",
+  "version": "1.0.0",
+  "description": "Generate better random numbers with more variety for JavaScript.",
+  "license": "MIT",
+  "author": "AspieSoft",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/aspiesoft/random-number-js.git"
+  },
+  "main": "script.js",
+  "keywords": [
+    "javascript",
+    "random",
+    "number",
+    "js"
+  ],
+  "devDependencies": {
+    "@aspiesoft/miniforge-js": "^1.0.0"
+  }
+}
