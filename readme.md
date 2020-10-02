@@ -1,11 +1,11 @@
 # Random Number JS
 
-![npm version](https://img.shields.io/npm/v/aspiesoft/random-number-js)
+![npm version](https://img.shields.io/npm/v/@aspiesoft/random-number-js)
 ![GitHub top language](https://img.shields.io/github/languages/top/aspiesoft/random-number-js)
 ![GitHub license](https://img.shields.io/github/license/aspiesoft/random-number-js)
 
-![npm downloads](https://img.shields.io/npm/dw/aspiesoft/random-number-js)
-![npm downloads](https://img.shields.io/npm/dm/aspiesoft/random-number-js)
+![npm downloads](https://img.shields.io/npm/dw/@aspiesoft/random-number-js)
+![npm downloads](https://img.shields.io/npm/dm/@aspiesoft/random-number-js)
 ![jsDelivr hits (GitHub)](https://img.shields.io/jsdelivr/gh/hm/aspiesoft/random-number-js)
 
 [![paypal](https://img.shields.io/badge/buy%20me%20a%20coffee-paypal-blue)](https://buymeacoffee.aspiesoft.com/)
