@@ -56,6 +56,8 @@ random(-50, 50, 2); // output: (23.02, -45.53, 2.5) random number between -50 an
 
 random(0, 100, -1); // output: random number with a random decimal size between 0 and 10
 
+random(0, 1, 10); // output: random number with a random decimal size between 0 and e^10
+
 // optional enable lite mode (false by default)
 // changes the default option, and can be (optionally) overwritten by the function
 random.setLiteMode(true || false); // default: true (default for function attr, Not for the option)
