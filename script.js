@@ -1,9 +1,13 @@
 /*! https://github.com/AspieSoft/random-number-js v1.0.0 | (c) aspiesoftweb@gmail.com */
 
 ;const random = (function(){
+  const options = {
+    liteMode: false,
+  };
+
   let oldRand = [];
 
-  function randomInt(min, max){
+  function randomInt(min, max, liteMode = null){
 
     // ensure
     min = Number(min);
@@ -69,7 +73,7 @@
 
     // convert number string, to actual number
     result = Number(result.join(''));
-    
+
     // if min or max is negative, add random chance to switch to negative (absolute if both are negative)
     if(min < 0 && max < 0){
       result *= -1;
@@ -87,7 +91,7 @@
         result += max-1;
       }
     }else if(max === 0 && result > 0){
-      return randomInt(min, max);
+      return randomInt(min, max, liteMode);
     }
 
     // ensure number is not under the min value
@@ -100,7 +104,7 @@
         result -= min+1;
       }
     }else if(min === 0 && result < 0){
-      return randomInt(min, max);
+      return randomInt(min, max, liteMode);
     }
 
     // ensure min did not increase the number too much (reduce max by reduced min value instead of by max value)
@@ -113,12 +117,17 @@
         result += min-1;
       }
     }else if(max === 0 && result > 0){
-      return randomInt(min, max);
+      return randomInt(min, max, liteMode);
     }
 
     // ensure result is not too small or too big or retry (this very rarely could happen)
     if(result < min || result > max){
-      return randomInt(min, max);
+      return randomInt(min, max, liteMode);
+    }
+
+    // skip tracking previous results, if in lite mode
+    if(liteMode || (liteMode !== false && options.liteMode)){
+      return result;
     }
 
     // keep track of old results, and reduce chance of repeats
@@ -131,7 +140,7 @@
         oldRand.splice(oldRand.indexOf(result), 1);
       }
       if(Math.floor(Math.random()*100) % 2 === 0 || Math.floor(Math.random()*100) % 2 === 0){
-        return randomInt(min, max);
+        return randomInt(min, max, liteMode);
       }
     }
     oldRand.push(result);
@@ -140,7 +149,7 @@
   }
 
 
-  function randomDouble(min = 0, max = 100, decimalLength = 0){
+  function randomDouble(min = 0, max = 100, decimalLength = 0, lite = null){
 
     // ensure min and max are numbers
     min = Number(min);
@@ -169,7 +178,7 @@
       decimalLength = Math.floor(Math.random()*10);
     }
 
-    let result = randomInt(min, max);
+    let result = randomInt(min, max, lite);
     if(result < min || result >= max || decimalLength == 0){
       return result;
     }
@@ -177,7 +186,7 @@
     let decimalLen10 = Math.pow(10, decimalLenInt);
 
     if(Math.floor(Math.random()*100) % 2 === 0 || Math.floor(Math.random()*100) % 2 === 0){
-      let decimal = randomInt(0, decimalLen10-1);
+      let decimal = randomInt(0, decimalLen10-1, lite);
       decimal = decimal.toString();
       while(decimal.length < decimalLenInt && Math.floor(Math.random()*100) % 2 === 0){
         decimal = '0'+decimal;
@@ -189,9 +198,27 @@
     return Math.round(result*decimalLen10)/decimalLen10;
   }
 
-  setInterval(function(){
+  let interval = setInterval(function(){
     oldRand = [];
-  }, 10000);
+  }, 1000);
 
-  return randomDouble;
+  const result = randomDouble;
+  result.setLiteMode = function(set = true){
+    options.liteMode = !!set;
+  };
+  result.setClearInterval = function(ms = 1000){
+    clearInterval(interval);
+    if(ms && typeof ms === 'number' && ms > 0){
+      interval = setInterval(function(){
+        oldRand = [];
+      }, ms);
+    }
+  };
+
+  return result;
 })();
+
+if(typeof module === 'object'){
+  // add node.js compatibility
+  module.exports = random;
+}
