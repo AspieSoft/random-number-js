@@ -22,6 +22,11 @@ This function also runs fast, and uses the time in milliseconds to help add vari
 The function, also (optionally, true by default) keeps track of recent random results, and tries to avoid repeating them, but does so randomly.
 The functions memory for recent random numbers is also cleared on a 1 second interval by default, and can be changed (or disabled) with a function as shown below.
 
+## Whats New
+
+- added option to avoid repeat numbers within a radius of each other
+- enabling lite mode globally now disables the clear interval automatically
+
 ## Installation
 
 ### node.js
@@ -58,6 +63,11 @@ random(0, 100, -1); // output: random number with a random decimal size between 
 
 random(0, 1, 10); // output: random number with a random decimal size between 0 and e^10
 
+// reduce the chance of numbers being near each other
+random.setAvoidRadius(10); // default: 0
+// will treat numbers within a distance of 10 of any previous number, as if it's a repeated number
+// example: if output1 = 5 and output2 = 7, because 7-10 <= 5, output2 counts as a repeat of output1
+
 // optional enable lite mode (false by default)
 // changes the default option, and can be (optionally) overwritten by the function
 random.setLiteMode(true || false); // default: true (default for function attr, Not for the option)
@@ -73,7 +83,7 @@ random(
   "<insert minimum value>", // default: 0
   "<insert maximum value>", // default: 100
   "<insert decimal size>", // default: 0
-  // individually set lite mode for current function
+  // individually set lite mode for current function (only works if lite mode is globally disabled)
   true || false, // default: null (uses default option)
 );
 

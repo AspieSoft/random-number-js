@@ -3,11 +3,12 @@
 ;const random = (function(){
   const options = {
     liteMode: false,
+    avoidRadius: 0,
   };
 
   let oldRand = [];
 
-  function randomInt(min, max, liteMode = null){
+  function randomInt(min, max, liteMode = null, isDecimal = false){
 
     // ensure
     min = Number(min);
@@ -67,12 +68,16 @@
       result.reverse();
     }
 
-    if(result[0] === '0'){
+    if(isDecimal && result[0] === '0'){
       result[0] = '1';
     }
 
     // convert number string, to actual number
-    result = Number(result.join(''));
+    if(result.length > 0){
+      result = Number(result.join(''));
+    }else{
+      result = 0;
+    }
 
     // if min or max is negative, add random chance to switch to negative (absolute if both are negative)
     if(min < 0 && max < 0){
@@ -132,6 +137,17 @@
 
     // keep track of old results, and reduce chance of repeats
     let preRand = [...oldRand];
+
+    if(options.avoidRadius !== 0){
+      for(let i = 0; i < preRand.length; i++){
+        if(preRand[i] >= result-options.avoidRadius && preRand[i] <= result+options.avoidRadius){
+          if(Math.floor(Math.random()*100) % 2 === 0){
+            return randomInt(min, max, liteMode);
+          }
+        }
+      }
+    }
+
     while(preRand.includes(result)){
       if(Math.floor(Math.random()*100) % 2 === 0){
         preRand.splice(preRand.indexOf(result), 1);
@@ -178,7 +194,7 @@
       decimalLength = Math.floor(Math.random()*10);
     }
 
-    let result = randomInt(min, max, lite);
+    let result = randomInt(min, max, lite, false);
     if(result < min || result >= max || decimalLength == 0){
       return result;
     }
@@ -186,7 +202,7 @@
     let decimalLen10 = Math.pow(10, decimalLenInt);
 
     if(Math.floor(Math.random()*100) % 2 === 0 || Math.floor(Math.random()*100) % 2 === 0){
-      let decimal = randomInt(0, decimalLen10-1, lite);
+      let decimal = randomInt(0, decimalLen10-1, lite, true);
       decimal = decimal.toString();
       while(decimal.length < decimalLenInt && Math.floor(Math.random()*100) % 2 === 0){
         decimal = '0'+decimal;
@@ -197,21 +213,36 @@
 
     return Math.round(result*decimalLen10)/decimalLen10;
   }
-
+  
+  let hasInterval = true;
   let interval = setInterval(function(){
     oldRand = [];
   }, 1000);
 
   const result = randomDouble;
+
   result.setLiteMode = function(set = true){
     options.liteMode = !!set;
+    if(options.liteMode){
+      result.setClearInterval(0);
+    }else if(!hasInterval){
+      result.setClearInterval();
+    }
   };
+
+  result.setAvoidRadius = function(set = 0){
+    options.avoidRadius = Number(set) || 0;
+  };
+
   result.setClearInterval = function(ms = 1000){
     clearInterval(interval);
     if(ms && typeof ms === 'number' && ms > 0){
+      hasInterval = true;
       interval = setInterval(function(){
         oldRand = [];
       }, ms);
+    }else{
+      hasInterval = false;
     }
   };
 
