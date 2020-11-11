@@ -41,7 +41,7 @@ npm install @aspiesoft/random-number-js
 
 ```html
 
-<script src="https://cdn.jsdelivr.net/gh/AspieSoft/random-number-js/script.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AspieSoft/random-number-js@1.3.1/script.min.js"></script>
 
 ```
 

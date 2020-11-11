@@ -1,4 +1,4 @@
-/*! https://github.com/AspieSoft/random-number-js v1.0.0 | (c) aspiesoftweb@gmail.com */
+/*! https://github.com/AspieSoft/random-number-js v1.3.1 | (c) aspiesoftweb@gmail.com */
 
 ;const random = (function(){
   const options = {
