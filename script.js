@@ -142,6 +142,7 @@
       for(let i = 0; i < preRand.length; i++){
         if(preRand[i] >= result-options.avoidRadius && preRand[i] <= result+options.avoidRadius){
           if(Math.floor(Math.random()*100) % 2 === 0){
+            oldRand.splice(i, 1);
             return randomInt(min, max, liteMode);
           }
         }
