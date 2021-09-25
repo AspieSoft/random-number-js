@@ -76,8 +76,8 @@ random.setLiteMode(true || false); // default: true (default for function attr, 
 // the numbers will still often have variety, but with a higher chance of repeats
 
 // change the interval for clearing previous results
-result.setClearInterval(1000); // default: 1000 (1000 milliseconds = 1 second)
-result.setClearInterval(0); // disable interval
+random.setClearInterval(1000); // default: 1000 (1000 milliseconds = 1 second)
+random.setClearInterval(0); // disable interval
 
 random(
   "<insert minimum value>", // default: 0
